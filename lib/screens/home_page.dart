@@ -3,6 +3,7 @@ import 'package:jihc_coin/providers/user_provider.dart';
 import 'package:jihc_coin/screens/addcoin.dart';
 import 'package:jihc_coin/screens/addcoin.dart';
 import 'package:jihc_coin/screens/event_page.dart';
+import 'package:jihc_coin/screens/info.dart';
 import 'package:jihc_coin/screens/profile.dart';
 import 'package:jihc_coin/screens/store.dart';
 import 'package:provider/provider.dart';
@@ -248,7 +249,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -306,7 +307,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -368,7 +369,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -426,7 +427,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -488,7 +489,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -548,7 +549,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -612,7 +613,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
@@ -670,7 +671,7 @@ class HomeContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AddFormPage(),
+                                builder: (context) => const InfoScreen(),
                               ),
                             );
                           },
