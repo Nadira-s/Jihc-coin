@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:jihc_coin/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  final String fullName;
 
+  const ProfilePage({super.key, required this.fullName});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -51,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  "${user?.name ?? 'No Name'}",
+                  widget.fullName,
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 Text(
