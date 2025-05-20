@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jihc_coin/screens/home_page.dart';
 import 'package:jihc_coin/screens/second_page.dart';
 import 'package:jihc_coin/screens/sign_up.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  const SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInPageState();
@@ -211,12 +212,36 @@ class _SignInPageState extends State<SignIn> {
                       width: double.infinity,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
+                        onPressed: () async {
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text,
+                                );
+
+                            // бари корректно болса HomePage-ге кетеди
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            String message = 'Login failed';
+                            if (e.code == 'user-not-found') {
+                              message = 'No user found for that email.';
+                            } else if (e.code == 'wrong-password') {
+                              message = 'Wrong password provided.';
+                            }
+
+                            // error
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text(message)));
+                          }
                         },
+
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF0000CD),
                           shape: RoundedRectangleBorder(
