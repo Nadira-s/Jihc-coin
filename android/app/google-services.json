@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "977450899258",
-    "project_id": "jihc-coin",
-    "storage_bucket": "jihc-coin.firebasestorage.app"
+    "project_number": "79659647656",
+    "project_id": "jihccoin",
+    "storage_bucket": "jihccoin.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:977450899258:android:734e79c89051608cb3a203",
+        "mobilesdk_app_id": "1:79659647656:android:9ab057976629c29d4a789d",
         "android_client_info": {
           "package_name": "com.example.jihc_coin"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCLAg_qn6yLbZMuRlE4G2Eslkjz8r2Eo-8"
+          "current_key": "AIzaSyC_USdC2tf0I81SOnBBEsre6ap1AHe5dxY"
         }
       ],
       "services": {
