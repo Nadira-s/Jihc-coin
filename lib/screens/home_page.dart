@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jihc_coin/providers/user_provider.dart';
 import 'package:jihc_coin/screens/addcoin.dart';
-import 'package:jihc_coin/screens/addcoin.dart';
 import 'package:jihc_coin/screens/event_page.dart';
 import 'package:jihc_coin/screens/info.dart';
 import 'package:jihc_coin/screens/profile.dart';
@@ -9,9 +8,11 @@ import 'package:jihc_coin/screens/store.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String? fullname;
+  HomePage({super.key, this.fullname});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -24,10 +25,10 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     // This should be your original homepage content
-    const HomeContent(),
+    HomeContent(),
     StorePage(),
-    const EventPage(),
-    const ProfilePage(),
+    EventPage(),
+    ProfilePage(fullName: ''),
 
     // Add more pages as needed
   ];
