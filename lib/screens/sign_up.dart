@@ -1,16 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jihc_coin/providers/user_provider.dart';
 import 'package:jihc_coin/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  final String? fullname;
+  const SignUp({super.key, this.fullname});
 
   @override
   State<SignUp> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
   bool rememberMe = false;
   final fullNameController = TextEditingController();
   final groupController = TextEditingController();
@@ -22,6 +25,52 @@ class _SignInPageState extends State<SignUp> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void _submitForm() async {
+    if (_formKey.currentState!.validate() && rememberMe) {
+      try {
+        // Создание пользователя в Firebase
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+
+        // Сохраняем пользователя в провайдер
+        Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).setUser(fullNameController.text, groupController.text);
+
+        // Переход на главную страницу
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(fullname: fullNameController.text),
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMessage = 'Ошибка регистрации';
+
+        if (e.code == 'email-already-in-use') {
+          errorMessage = 'Этот email уже используется';
+        } else if (e.code == 'weak-password') {
+          errorMessage = 'Слабый пароль';
+        } else if (e.code == 'invalid-email') {
+          errorMessage = 'Неверный email';
+        }
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
+    } else if (!rememberMe) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Пожалуйста, согласитесь с обработкой данных'),
+        ),
+      );
+    }
   }
 
   @override
@@ -106,88 +155,111 @@ class _SignInPageState extends State<SignUp> {
                     const SizedBox(height: 40),
 
                     // Email
-                    TextField(
-                      controller: fullNameController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Full Name',
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: fullNameController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              hintText: 'Enter Full Name',
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
 
-                    TextField(
-                      controller: groupController,
-                      obscureText: false,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Group',
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                    ),
+                          TextFormField(
+                            controller: groupController,
+                            obscureText: false,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: 'Enter Group',
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            ),
+                          ),
 
-                    const SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
-                    // Password
-                    TextField(
-                      controller: emailController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Email',
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Password ',
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
+                          // Password
+                          TextFormField(
+                            controller: emailController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              hintText: 'Enter Email',
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Enter Password ',
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -255,19 +327,7 @@ class _SignInPageState extends State<SignUp> {
                       width: double.infinity,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Provider.of<UserProvider>(
-                            context,
-                            listen: false,
-                          ).setUser(
-                            fullNameController.text,
-                            groupController.text,
-                          );
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        },
+                        onPressed: _submitForm,
 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF0000CD),
