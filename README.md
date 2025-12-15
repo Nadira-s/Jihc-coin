@@ -1,16 +1,45 @@
-# jihc_coin
+# Jihc Coin 💰
 
-A new Flutter project.
+## Overview
+The goal was to create a **simple and secure cryptocurrency app** for users in Kazakhstan.  
+Many existing apps are too complex or hard to navigate, especially for beginners.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Problem
+- Users struggle with complicated cryptocurrency apps  
+- No simple way to track balances and transactions  
+- Lack of real-time updates for coin values and transactions  
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Solution
+I developed **Jihc Coin**, a cross-platform mobile app using **Flutter** and **Firebase**, which:  
+- Shows **real-time balances** and transaction history  
+- Allows users to **send and receive coins** securely  
+- Provides **live coin prices** using Firebase real-time database  
+- Features a **clean and intuitive UI**  
+- Follows **MVVM / Provider architecture** for scalable and maintainable code  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## Result
+- Fully functional cryptocurrency app on iOS and Android  
+- Secure, smooth, and user-friendly experience  
+- Real-time updates on transactions and coin values  
+- Easy to expand with new features in the future  
+
+---
+
+## Tech Stack
+- Flutter & Dart  
+- Firebase (Auth, Firestore, Realtime Database)  
+- Provider / MVVM Architecture  
+- Git & Version Control  
+
+---
+
+## Author
+Nadira Seitkazy  
+Junior Mobile Developer  
+🔗 [LinkedIn](https://www.linkedin.com/in/nadira-seitkazy)
